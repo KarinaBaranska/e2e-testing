@@ -1,33 +1,23 @@
-name: Playwright smoke Tests
-
+name: Playwright smoke tests
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+ push:
+   branches: [main, master]
+ pull_request:
+   branches: [main, master]
 
 jobs:
-  run-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install
-
-      - name: Run Playwright smoke tests
-        run: npm run test:smoke
-        
-      - name: Wyświetl mój tekst
-        run: echo "Running second workflow for Playwright smoke tests"
+ run-tests:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Display text on console
+       run: echo "Running second workflow for Playwright smoke tests"
+     - uses: actions/checkout@v3
+     - uses: actions/setup-node@v3
+       with:
+         node-version: 20
+     - name: Install dependencies
+       run: npm ci
+     - name: Install Playwright Browsers
+       run: npx playwright install --with-deps
+     - name: Run Playwright smoke tests
+       run: npm run test:smoke
