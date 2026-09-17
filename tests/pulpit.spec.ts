@@ -6,16 +6,26 @@ import { PulpitPage } from '../pages/pulpit.page';
 test.describe('Pulpit tests', () => {
   let pulpitPage: PulpitPage;
 
-  test.beforeEach(async ({ page }) => {
-    const userId = loginData.userId;
-    const userPassword = loginData.userPassword;
+test.beforeEach(async ({ page }) => {
+  const userId = loginData.userId;
+  const userPassword = loginData.userPassword;
 
-    await page.goto('/');
-    const loginPage = new LoginPage(page);
-    await loginPage.login(userId, userPassword);
+  await page.goto('/');
 
-    pulpitPage = new PulpitPage(page);
+  const loginPage = new LoginPage(page);
+
+  await expect(loginPage.loginInput).toBeVisible({
+    timeout: 30_000,
   });
+
+  await loginPage.login(userId, userPassword);
+
+  pulpitPage = new PulpitPage(page);
+
+  await expect(pulpitPage.moneyValueText).toBeVisible({
+    timeout: 30_000,
+  });
+});
 
   test('quick payment with correct data @integration @pulpit', async ({
     page,
