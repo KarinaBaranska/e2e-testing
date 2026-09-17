@@ -6,38 +6,46 @@ import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Payment tests', () => {
   let paymentPage: PaymentPage;
-  
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
 
     await page.goto('/');
 
-const loginPage = new LoginPage(page);
-
-await expect(loginPage.loginInput).toBeVisible({
-  timeout: 30_000,
-});
-
-await loginPage.login(userId, userPassword);
     const loginPage = new LoginPage(page);
+
+    await expect(loginPage.loginInput).toBeVisible({
+      timeout: 30_000,
+    });
+
     await loginPage.login(userId, userPassword);
 
     const pulpitPage = new PulpitPage(page);
+
+    await expect(pulpitPage.moneyValueText).toBeVisible({
+      timeout: 30_000,
+    });
+
     await pulpitPage.sideMenuComponent.paymentLink.click();
-    
+
     paymentPage = new PaymentPage(page);
   });
 
-  test('simple payment @integration @payment', async ({ page }) => {
+  test('simple payment @integration @payment', async () => {
     // Arrange
     const transferReceiver = 'Jan Nowak';
     const transferAccount = '12 3456 7890 1234 5678 9012 34568';
     const transferAmount = '222';
-    const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
+    const expectedMessage =
+      `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
     // Act
-    await paymentPage.makeTransfer(transferReceiver, transferAccount, transferAmount);
+    await paymentPage.makeTransfer(
+      transferReceiver,
+      transferAccount,
+      transferAmount
+    );
 
     // Assert
     await expect(paymentPage.messageText).toHaveText(expectedMessage);
