@@ -6,10 +6,15 @@ import { PulpitPage } from '../pages/pulpit.page';
 test.describe('User login to Demobank', () => {
   let loginPage: LoginPage;
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    loginPage = new LoginPage(page);
+test.beforeEach(async ({ page }) => {
+  await page.goto('/');
+
+  loginPage = new LoginPage(page);
+
+  await expect(loginPage.loginInput).toBeVisible({
+    timeout: 30_000,
   });
+});
 
   test('successful login with correct credentials @smoke @login', async ({
     page,
