@@ -12,6 +12,14 @@ test.describe('Payment tests', () => {
     const userPassword = loginData.userPassword;
 
     await page.goto('/');
+
+const loginPage = new LoginPage(page);
+
+await expect(loginPage.loginInput).toBeVisible({
+  timeout: 30_000,
+});
+
+await loginPage.login(userId, userPassword);
     const loginPage = new LoginPage(page);
     await loginPage.login(userId, userPassword);
 
