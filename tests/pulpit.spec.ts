@@ -62,19 +62,41 @@ test.beforeEach(async ({ page }) => {
     await expect(pulpitPage.messageText).toHaveText(expectedMessage);
   });
 
-  test('correct balance after successful mobile top-up @integration @pulpit', async ({
-    page,
-  }) => {
+test(
+  'correct balance after successful mobile top-up @integration @pulpit',
+  async () => {
     // Arrange
     const topUpReceiver = '500 xxx xxx';
     const topUpAmount = '50';
-    const initialBalance = await pulpitPage.moneyValueText.innerText();
-    const expectedBalance = Number(initialBalance) - Number(topUpAmount);
+
+    await expect(pulpitPage.moneyValueText).toBeVisible({
+      timeout: 30_000,
+    });
+
+    const initialBalanceText =
+      await pulpitPage.moneyValueText.innerText();
+
+    const initialBalance = Number(
+      initialBalanceText
+        .replace(/\s/g, '')
+        .replace('PLN', '')
+        .replace('zł', '')
+        .replace(',', '.')
+    );
+
+    const expectedBalance =
+      initialBalance - Number(topUpAmount);
 
     // Act
-    await pulpitPage.executeMobileTopUp(topUpReceiver, topUpAmount);
+    await pulpitPage.executeMobileTopUp(
+      topUpReceiver,
+      topUpAmount
+    );
 
     // Assert
-    await expect(pulpitPage.moneyValueText).toHaveText(`${expectedBalance}`);
-  });
-});
+    await expect(pulpitPage.moneyValueText).toHaveText(
+      `${expectedBalance}`
+    );
+  }
+);
+
