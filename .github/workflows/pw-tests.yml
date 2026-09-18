@@ -23,7 +23,8 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
+          cache: "npm"
+          registry-url: "https://npm.pkg.github.com"
 
       - name: Install dependencies
         run: npm ci
