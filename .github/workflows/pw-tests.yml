@@ -50,7 +50,7 @@ jobs:
         run: npx playwright test --grep @smoke
       - name: Archive tests results
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v5
         with:
           name: test-report-smoke-tests
           path: |
