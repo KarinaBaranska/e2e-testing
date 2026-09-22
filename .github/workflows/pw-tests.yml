@@ -102,7 +102,7 @@ jobs:
         run: npx playwright test --grep-invert @smoke
       - name: Archive tests results
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v5
         with:
           name: test-report-all-tests
           path: |
