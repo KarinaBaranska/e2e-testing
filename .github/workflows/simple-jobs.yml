@@ -18,8 +18,8 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ inputs.version }}
           cache: "npm"
@@ -40,7 +40,7 @@ jobs:
             test-results/**/*.*
       - name: Publish smoke test report
         if: success() || failure()
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v5
         with:
           report_paths: "./playwright-report/results.xml"
 
