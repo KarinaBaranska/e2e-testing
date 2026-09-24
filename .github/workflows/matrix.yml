@@ -10,7 +10,7 @@ jobs:
   run-tests:
     strategy:
       matrix:
-        node_version: [18, 20]
+        node_version: [20, 22]
 
 
     timeout-minutes: 5
